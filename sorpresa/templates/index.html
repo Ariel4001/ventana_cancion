@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mensajeee</title>
+    <style>
+        body {
+            background: #000;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            overflow: hidden;
+        }
+        h1 { font-weight: 300; margin-bottom: 30px; text-align: center; max-width: 900px; padding: 0 20px; }
+
+        /* Estilo para el mensaje extra */
+        #extra-msg {
+            color: #1DB954;
+            font-weight: bold;
+            font-size: 0.8em;
+            display: block;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .container { display: flex; gap: 20px; align-items: center; }
+
+        .btn {
+            padding: 15px 40px;
+            background: transparent;
+            color: #1DB954;
+            border: 2px solid #1DB954;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn-si:hover {
+            background: #1DB954;
+            color: white;
+            box-shadow: 0 0 20px #1DB954;
+        }
+
+        #btn-no {
+            position: absolute;
+            transition: 0.1s;
+            color: #ff4444;
+            border-color: #ff4444;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>
+        {{ mensaje }}
+        <span id="extra-msg">tramposa, aqui lo abres si o si jajaja</span>
+    </h1>
+
+    <div class="container">
+        <a href="/sorpresa" class="btn btn-si">abrir abrir abrirrrrrr</a>
+        <button id="btn-no" class="btn">no quiero andres, no jodas</button>
+    </div>
+
+    <script>
+        const btnNo = document.getElementById('btn-no');
+        const extraMsg = document.getElementById('extra-msg');
+        let cronometroIniciado = false;
+
+        const moverBoton = () => {
+            if (!cronometroIniciado) {
+                setTimeout(() => {
+                    extraMsg.style.opacity = "1";
+                }, 5000);
+                cronometroIniciado = true;
+            }
+
+
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight);
+
+            btnNo.style.left = `${x}px`;
+            btnNo.style.top = `${y}px`;
+        };
+
+        btnNo.addEventListener('mouseover', moverBoton);
+
+        btnNo.addEventListener('click', () => {
+            alert("Buen intento, pero tienes que abrirlo jajaja");
+            moverBoton();
+        });
+    </script>
+</body>
+</html>
