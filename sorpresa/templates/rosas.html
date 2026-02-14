@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Para Mi Delirio</title>
+    <style>
+        :root {
+            --rosa-fuerte: #ff4081;
+            --rosa-medio: #f48fb1;
+            --rosa-claro: #fce4ec;
+            --retro-shadow: 4px 4px 0px #ad1457;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+            background: #fce4ec;
+            background-image:
+                radial-gradient(circle at 20% 30%, #f8bbd0 5%, transparent 5.1%),
+                radial-gradient(circle at 80% 70%, #f8bbd0 5%, transparent 5.1%);
+            background-size: 100px 100px;
+            animation: moveBg 20s linear infinite;
+            position: relative;
+        }
+
+        /* Estilos para los brillitos (Sparkles) */
+        .sparkle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px white, 0 0 20px white;
+            animation: shine 1.5s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes shine {
+            0%, 100% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        @keyframes moveBg {
+            from { background-position: 0 0; }
+            to { background-position: 100px 100px; }
+        }
+
+        .header-text {
+            text-align: center;
+            color: #ad1457;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border: 3px solid #ad1457;
+            box-shadow: var(--retro-shadow);
+            margin-bottom: 20px;
+            z-index: 10;
+        }
+
+        .ramo-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            height: 300px;
+            gap: 20px;
+            z-index: 5;
+        }
+
+        .peonia-completa {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .flor {
+            width: 90px;
+            height: 90px;
+            background: var(--rosa-fuerte);
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .petalo-caer {
+            position: absolute;
+            width: 45px;
+            height: 65px;
+            background: var(--rosa-medio);
+            border-radius: 50% 50% 20% 20%;
+            left: 22.5px;
+            transform-origin: bottom center;
+            border: 1px solid rgba(255,255,255,0.4);
+            opacity: 0.9;
+        }
+
+        .caer { animation: falling 2s forwards ease-in; }
+
+        @keyframes falling {
+            to {
+                transform: translateY(500px) rotate(220deg);
+                opacity: 0;
+            }
+        }
+
+        .tallo {
+            width: 8px;
+            height: 150px;
+            background: #4caf50;
+            margin: -5px auto 0;
+            border-radius: 10px;
+        }
+
+        .boton-retro {
+            margin-top: 30px;
+            padding: 12px 25px;
+            background: #ad1457;
+            color: white;
+            text-decoration: none;
+            border: 2px solid #56072a;
+            box-shadow: var(--retro-shadow);
+            font-weight: bold;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="musicaFondo" loop autoplay>
+        <source src="{{ url_for('static', filename='musica.mp3') }}" type="audio/mpeg">
+    </audio>
+
+    <div class="header-text">
+        <h2>"con mucho cariñoooo"</h2>
+        <p><i>estas peonias, por ser la dueña de mi corazon.</i></p>
+    </div>
+
+    <div class="ramo-container">
+        <div class="peonia-completa" onclick="quitarPetalo(this)"><div class="flor"></div><div class="tallo"></div></div>
+        <div class="peonia-completa" style="margin-bottom: 25px;" onclick="quitarPetalo(this)"><div class="flor"></div><div class="tallo" style="height: 180px;"></div></div>
+        <div class="peonia-completa" onclick="quitarPetalo(this)"><div class="flor"></div><div class="tallo"></div></div>
+    </div>
+
+    <div id="juego-texto" style="font-size: 20px; color: #ad1457; font-weight: bold; margin-top: 15px;">dale click en los petalosssssss</div>
+
+    <a href="/sorpresa" class="boton-retro">Volver</a>
+
+    <script>
+        // Configuración de música
+        const audio = document.getElementById('musicaFondo');
+        audio.volume = 0.4; // Volumen un poco más bajo para que no asuste
+
+        let contador = 0;
+        const textos = ["¿Me quieres?", "Mucho", "Poquito", "Nada...", "bastaaaaa",
+         "si me quieressssss, si sonreiste, yo se q si", "vuelve a mi 🙏"];
+
+        // PUNTO 2: Función para crear brillitos aleatorios
+        function crearBrillito() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.top = Math.random() * 100 + 'vh';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(sparkle);
+
+            // Eliminar el brillito después de la animación para no saturar el navegador
+            setTimeout(() => sparkle.remove(), 2000);
+        }
+
+        // Crear brillitos constantemente
+        setInterval(crearBrillito, 300);
+
+        document.querySelectorAll('.flor').forEach(flor => {
+            for(let i=0; i<16; i++) {
+                let p = document.createElement('div');
+                p.className = 'petalo-caer';
+                p.style.transform = `rotate(${i * 22.5}deg)`;
+                flor.appendChild(p);
+            }
+        });
+
+        function quitarPetalo(elemento) {
+            const petalos = elemento.querySelectorAll('.petalo-caer:not(.caer)');
+            if (petalos.length > 0) {
+                petalos[petalos.length - 1].classList.add('caer');
+                const textoDiv = document.getElementById('juego-texto');
+                textoDiv.innerText = textos[contador % textos.length];
+                contador++;
+            }
+        }
+    </script>
+</body>
+</html>
