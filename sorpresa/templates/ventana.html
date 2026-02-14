@@ -132,20 +132,34 @@
             height: 30px;
         }
 
-        .ok-btn {
+        /* BOTONES ESTILO WIN95 */
+        .win-btn {
             margin-top: 10px;
             background: #ced0cf;
             border: 2px solid #fff;
             border-right-color: #000;
             border-bottom-color: #000;
-            padding: 6px 25px;
+            padding: 6px 15px;
             cursor: pointer;
             font-family: 'Tahoma', sans-serif;
             font-weight: bold;
+            font-size: 12px;
+            text-decoration: none;
+            color: black;
+            display: inline-block;
         }
 
-        .ok-btn:active {
+        .win-btn:active {
             border: 2px inset #000;
+        }
+
+        .surprise-btn {
+            border: 2px solid #ff80ab;
+            border-right-color: #ad1457;
+            border-bottom-color: #ad1457;
+            background: #fce4ec;
+            color: #ad1457;
+            margin-left: 5px;
         }
     </style>
 </head>
@@ -157,7 +171,7 @@
     <div class="window">
         <div class="title-bar">
             <span>Ariana Grande - We cant be friends</span>
-            <div class="close-btn">✕</div>
+            <div class="close-btn" onclick="window.location.href='/'">✕</div>
         </div>
         <div class="content">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcmbljE_KEeincaIrWW1MKIjq3RUj6uax57A&s" class="album-img">
@@ -168,7 +182,10 @@
                 <source src="{{ url_for('static', filename='musica.mp3') }}" type="audio/mpeg">
             </audio>
 
-            <button class="ok-btn" onclick="window.location.href='/'">Cerrar</button>
+            <div style="display: flex; justify-content: center; gap: 10px;">
+                <button class="win-btn" onclick="window.location.href='/'">Cerrar</button>
+                <a href="/rosas" class="win-btn surprise-btn">¿Otra sorpresa?</a>
+            </div>
         </div>
     </div>
 
@@ -221,7 +238,7 @@
                 if (actual >= letras[i].t) {
                     fraseActual = letras[i].txt;
                 } else {
-                    break; // Detiene la búsqueda en el punto exacto del audio
+                    break;
                 }
             }
             texto.innerText = fraseActual;

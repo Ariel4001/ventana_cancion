@@ -5,16 +5,22 @@ app = Flask(__name__)
 @app.route('/')
 def inicio():
     # El mensaje personalizado que aparecerá primero
-    return render_template('index.html', mensaje="Hola, te sonara loco, pero "
-                                                 "sigues estando en mi cabeza todo un siempre, por eso "
+    return render_template('index.html', mensaje="sigues estando en mi cabeza todo un siempre, siempre me acuerdo de todo, porque "
+                                                 "no puedo fingir que no te conozco a la perfeccion, por eso "
                                                  "hice esto pa ti, recuerdo exactamente todo incluso hasta las "
-                                                 "musicas que alguna vez me enseñaste con toda la alegria u.u, no sigo"
+                                                 "musicas que alguna vez me enseñaste con toda la alegria u.u, no sigo "
                                                  "haciendo cosas para que me quieras, sino para que sepas que te quiero :), "
                                                  "por si te lo preguntas aun si y con todo el corazon jaja")
 
 @app.route('/sorpresa')
 def sorpresa():
     return render_template('ventana.html')
+
+@app.route('/rosas')
+def rosas():
+    return render_template('rosas.html')
+
+
 
 if __name__ == '__main__':
     import os
